@@ -1,0 +1,118 @@
+﻿@model IntelRobotics.Models.Robot
+
+@{
+    ViewData["Title"] = "Details";
+}
+<style>
+.bg-secondary {
+    margin-left: -7.5%;
+    margin-right: 5%;
+}
+</style>
+<div class="bg-light" style="width=100%; height=100%; ">
+    <div style="margin-left:10%;">
+    <img src="@("~/image/"+Model.ImageName)" style="margin-left:32%" asp-append-version="true" width="250px" height="250px"/>
+    <dl class="row" >
+        <dt class = "col-sm-2">
+            <h1 hidden>@Html.DisplayNameFor(model => model.Name)</h1>
+        </dt>
+        <dd class = "col-sm-10">
+            <h1>@Html.DisplayFor(model => model.Name)</h1>
+        </dd>
+        <dt class = "col-sm-2">
+            <h1 hidden> @Html.DisplayNameFor(model => model.Description)</h1>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+    </div>
+    <div >
+        <h1 style="margin-left: 35%;text-decoration: underline;">Specifications</h1>
+    </div>
+    <div>
+        <table class="table table-striped">
+
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <td>
+                            @Html.DisplayNameFor(model => model.LigtingCapacity):
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.LigtingCapacity)
+                        </td>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="row">
+                        <td>
+                            @Html.DisplayNameFor(model => model.Weight):
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Weight)
+                        </td>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <td>
+                            @Html.DisplayNameFor(model => model.Footprint):
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Footprint)
+                        </td>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <td>
+                            @Html.DisplayNameFor(model => model.Radius):
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Radius)
+                        </td>
+                    </th>
+                </tr>
+                                <tr>
+                    <th scope="row">
+                        <td>
+                            @Html.DisplayNameFor(model => model.Parts):
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Parts)
+                        </td>
+                    </th>
+                </tr>
+                                <tr>
+                    <th scope="row">
+                        <td>
+                            @Html.DisplayNameFor(model => model.available):
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.available)
+                        </td>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+            @if(@User.Identity.IsAuthenticated)
+            {
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Edit)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Edit)
+            </dd>
+            }
+        </dl>
+    </div>
+    <div class="col-md-12">
+        @if (@User.Identity.IsAuthenticated)
+        {
+          <a class="p-2" asp-action="Edit" asp-route-id="@Model?.Robotid">Edit</a>   
+        }
+        <a class="btn btn-primary p-2" asp-action="Index">Back to List</a>
+        <a class="btn btn-success" asp-controller="KontaktForms" asp-action="Create" asp-route-id="@Model?.Robotid" style="float:right;">Kontakt</a>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<IntelRobotics.Models.Robot>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Robots</h1>
+<style>
+    ul.ulrobots{
+        list-style-type:none;
+        margin: 0;
+        padding:0;
+        display:flex;
+        flex-wrap:wrap;
+    }
+    li.lirobots{
+        background: rgb(238, 238, 238);
+        padding: 1em;
+        margin-right: 20px;
+        width: auto;
+        height: auto;
+        margin-bottom: 1em;
+        display: flex;
+        flex-direction: column;
+    }
+    p {
+            margin: 0;
+        }
+    p.name {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+</style>
+<p>
+    @if (@User.Identity.IsAuthenticated)
+    {
+        <a asp-action="Create">Create New</a>   
+    }
+</p>
+@if (@User.Identity.IsAuthenticated)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.available)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LigtingCapacity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Weight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Footprint)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Radius)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Parts)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Edit)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.available)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <img src="@("~/image/"+item.ImageName)" asp-append-version="true" width="150px" height="150px">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LigtingCapacity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Weight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Footprint)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Radius)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Parts)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Edit)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Robotid">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Robotid">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Robotid">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if(!@User.Identity.IsAuthenticated){
+    <ul class="ulrobots">
+            @foreach(var item in Model)
+            {
+            @if (item.available == true)
+            {
+                
+            }
+            <li class="lirobots">
+                    <img src="@("~/image/"+item.ImageName)" asp-append-version="true" width="150px" height="150px"/>
+                    <p class="name">@item.Name</p>
+                    <a asp-action="Details" asp-route-id="@item.Robotid">Details</a>
+                </li>
+            }
+    </ul>
+}
