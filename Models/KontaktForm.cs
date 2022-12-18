@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IntelRobotics.Models
 {
@@ -16,5 +17,11 @@ namespace IntelRobotics.Models
         public string Regarding { get; set; }
         public DateTime RequestDate { get; set; }
         public List<KontaktFormToRobot>? robot { get; set; }
+        [NotMapped]
+        public Guid? Robotid { get; set; }
+        [NotMapped]
+        public string? RB { get; set; }
+        [NotMapped]
+        public string? RBIMAGE { get; set; }
     }
 }

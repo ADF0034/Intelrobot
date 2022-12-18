@@ -3,6 +3,19 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
+    <li>
+        <div class="dropdown">
+            <a class="btn nav-link text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                sprog
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a asp-controller="home" asp-action="Index"><img src="@("~/image/dan.png")" asp-append-version="true" width="20px" height="50px" class="dropdown-item text-dark" /></a></li>
+                <li><a asp-controller="home" asp-action="Japan"><img src="@("~/image/jap.png")" asp-append-version="true" width="20px" height="50px" class="dropdown-item text-dark" /></a></li>
+                <li><a asp-controller="home" asp-action="Engelsk"><img src="@("~/image/brit.png")" asp-append-version="true" width="20px" height="50px" class="dropdown-item text-dark" /></a></li>
+            </ul>
+        </div>
+    </li>
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">

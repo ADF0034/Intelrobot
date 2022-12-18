@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var id = ViewData["role"] as string;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,6 +9,7 @@
     <title>@ViewData["Title"] - IntelRobotics</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/IntelRobotics.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -28,10 +32,16 @@
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Robots" asp-action="Index">Robots</a>
                         </li>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="KontaktForms" asp-route-id="" asp-action="Create">Kontakt</a></li>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                         <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="KontaktForms" asp-route-id="" asp-action="Create">Kontakt</a>
+                            @if (id =="SuperAdmin")
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Users">Users</a>
+                            }
                         </li>
                     </ul>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -43,9 +53,21 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="background-color:#007cba;color:black;">
         <div class="container">
-            &copy; 2022 - IntelRobotics - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col" style="color:black;">
+                    &copy; 2022 - IntelRobotics 
+                </div>
+                <div class="col">
+                    <div class="row" style="color:black">
+                        IntelRobotics
+                        H E Blumesvej 1
+                        6700 Esbjerg
+                        Tlf. 70 27 09 00
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

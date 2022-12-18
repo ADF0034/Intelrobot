@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<IntelRobotics.Models.Users>
+@{
+}
+<h1>Users</h1>
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @if (item.role.Count==0)
+                    {
+                        <a class="btn btn-success" asp-controller="Home" asp-action="add" asp-route-id="@item.Id">tilføj rolle</a>
+                    }
+                    else
+                    {
+                        @if (item.role.FirstOrDefault() != "SuperAdmin")
+                        {
+                            <a class="btn btn-success" asp-controller="Home" asp-action="addUser" asp-route-id="@item.Id" asp-route-role="SuperAdmin"> Update til Superadmin</a>
+                            <a class="btn btn-danger" asp-controller="Home" asp-action="removeRole" asp-route-id="@item.Id" asp-route-role="@item.role.FirstOrDefault()">fjern rolle</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-danger" asp-controller="Home" asp-action="removeRole" asp-route-id="@item.Id" asp-route-role="@item.role.FirstOrDefault()">fjern rolle</a>
+                        }
+                    }
+
+                </td>
+                <td>
+                    <a class="btn" asp-controller="Home" asp-action="delete" asp-route-id="@item.Id"> slet bruger</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

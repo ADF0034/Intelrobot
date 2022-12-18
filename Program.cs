@@ -11,8 +11,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy =>
+    policy.RequireRole("Admin", "SuperAdmin")
+    );
+    options.AddPolicy("SuperAdmin", policy =>
+    policy.RequireRole("SuperAdmin"));
+});
 
 var app = builder.Build();
 

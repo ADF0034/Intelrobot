@@ -1,7 +1,8 @@
-﻿@model IntelRobotics.Models.KontaktForm
+﻿
 
 @{
     ViewData["Title"] = "Details";
+    var data = ViewData["data"] as KontaktForm;
 }
 
 <h1>Details</h1>
@@ -10,39 +11,50 @@
     <h4>KontaktForm</h4>
     <hr />
     <dl class="row">
+        @if(data.RBIMAGE is not null){
+            <img src="@("~/image/"+data.RBIMAGE)" asp-append-version="true" width="250px" height="250px" />
+        }
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            <h2>Navn:</h2>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+        <dd class="col-sm-10">
+            <h5>@data.Name</h5>
+        </dd>
+        <dt class="col-sm-2">
+            <h2>firma navn:</h2>
+        </dt>
+        <dd class="col-sm-10">
+            <h5>@data.CompanyName</h5>
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CompanyName)
+            <h2>Email:</h2>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CompanyName)
+        <dd class="col-sm-10">
+            <h5>@data.Email</h5>
+        </dd>
+        <dt class="col-sm-2">
+            <h2>Omkring:</h2>
+        </dt>
+        <dd class="col-sm-10">
+            <h5>@data.Regarding</h5>
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            <h2>Request date</h2>
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
+            <h5>@data.RequestDate</h5>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Regarding)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Regarding)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RequestDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RequestDate)
-        </dd>
+        @if(data.robot is not null)
+        {
+            <dt>
+                <h2> Robot:</h2>
+            </dt>
+            <dd>
+                <h5>@data.RB</h5>
+            </dd>
+        }
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

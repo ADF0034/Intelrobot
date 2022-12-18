@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IntelRobotics.Data;
 using IntelRobotics.Models;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace IntelRobotics.Controllers
 {
@@ -14,29 +18,61 @@ namespace IntelRobotics.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private IMemoryCache _memoryCache;
+        private readonly UserManager<IdentityUser> _userManger;
 
-        public RobotsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public RobotsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment, IMemoryCache memoryCache, UserManager<IdentityUser> userManger)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
+            _memoryCache = memoryCache;
+            _userManger = userManger;
         }
+
+
+
+
+
+
 
         // GET: Robots
         public async Task<IActionResult> Index()
         {
-              return _context.Robots != null ? 
-                          View(await _context.Robots.ToListAsync()) :
+            string role = "no";
+            var use = _userManger.GetUserName(User);
+            var user = _userManger.Users.Where(x => x.UserName == use);
+            foreach (var item in user)
+            {
+                var roles = await _userManger.GetRolesAsync(item);
+                if (roles.Count()>0)
+                {
+                    role = roles.FirstOrDefault();
+                }
+            }
+            List<Robot> output;
+            output =   _memoryCache.Get<List<Robot>>("robots");
+            if (output is null)
+            {
+                var AllRobots = await _context.Robots.AsNoTracking().ToListAsync();
+                _memoryCache.Set("robots", AllRobots, TimeSpan.FromMinutes(10));
+                output = _memoryCache.Get<List<Robot>>("robots");
+            }
+            ViewData["role"] = role;
+              return _context.Robots != null ? View(output) :
                           Problem("Entity set 'ApplicationDbContext.Robots'  is null.");
         }
 
         // GET: Robots/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null || _context.Robots == null)
+
+            List<Robot> output;
+            output = _memoryCache.Get<List<Robot>>("robots");
+            if (id == null || _context.Robots == null || output is null)
             {
                 return NotFound();
             }
-
+             
             var robot = await _context.Robots
                 .FirstOrDefaultAsync(m => m.Robotid == id);
             if (robot == null)
@@ -48,6 +84,8 @@ namespace IntelRobotics.Controllers
         }
 
         // GET: Robots/Create
+
+        [Authorize(Policy = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -82,6 +120,8 @@ namespace IntelRobotics.Controllers
         }
 
         // GET: Robots/Edit/5
+
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null || _context.Robots == null)
@@ -135,6 +175,8 @@ namespace IntelRobotics.Controllers
         }
 
         // GET: Robots/Delete/5
+
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null || _context.Robots == null)
@@ -154,6 +196,7 @@ namespace IntelRobotics.Controllers
 
         // POST: Robots/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Policy = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {

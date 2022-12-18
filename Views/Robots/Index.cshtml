@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    string role = ViewData["role"] as string;
 }
 
 <h1>Robots</h1>
@@ -32,12 +33,12 @@
         }
 </style>
 <p>
-    @if (@User.Identity.IsAuthenticated)
+    @if (role == "admin" || role == "SuperAdmin")
     {
         <a asp-action="Create">Create New</a>   
     }
 </p>
-@if (@User.Identity.IsAuthenticated)
+@if (role == "admin" || role == "SuperAdmin")
 {
     <table class="table">
         <thead>
@@ -125,7 +126,9 @@
         </tbody>
     </table>
 }
-@if(!@User.Identity.IsAuthenticated){
+else
+{
+
     <ul class="ulrobots">
             @foreach(var item in Model)
             {

@@ -4,7 +4,8 @@
 }
 @{
     var id = ViewData["robot"] as Robot;
-    string er = "";
+    var admin = ViewData["Admindata"] as List<KontaktForm>;
+    var name = ViewData["Name"];
 }
 
 <h4>KontaktForm</h4>
@@ -13,12 +14,18 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div class="form-group">
-                <label asp-for="robot"></label>
+                @if(id is not null){
+                    <label>@name</label>
+                }
             </div>
             @if (id != null)
             {
                 <img src="@("~/image/"+id.ImageName)" style="margin-left:32%" asp-append-version="true" width="250px" height="250px"/>   
             }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Robotid" hidden value="@id.Robotid" class="form-control/>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -40,15 +47,14 @@
                 <input asp-for="Regarding" class="form-control" />
                 <span asp-validation-for="Regarding" class="text-danger"></span>
             </div>
+            <br/>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+                <a class="btn btn-danger p-2" style="height:38px; text-align:center; bottom:5px" asp-controller="home" asp-action="Index">Anuller</a>
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
