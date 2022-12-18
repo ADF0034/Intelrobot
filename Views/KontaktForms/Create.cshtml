@@ -6,6 +6,12 @@
     var id = ViewData["robot"] as Robot;
     var admin = ViewData["Admindata"] as List<KontaktForm>;
     var name = ViewData["Name"];
+    Robot robot = new Robot();
+    robot.Robotid = Guid.Parse("1f46ed45-f49c-4dca-83f6-d956c9344c65");
+    if (id==null)
+    {
+        id = robot;
+    }
 }
 
 <h4>KontaktForm</h4>
@@ -14,18 +20,18 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div class="form-group">
-                @if(id is not null){
+                @if(id is not null||id.Robotid!=robot.Robotid){
                     <label>@name</label>
                 }
             </div>
-            @if (id != null)
+            @if (id.Robotid != robot.Robotid)
             {
                 <img src="@("~/image/"+id.ImageName)" style="margin-left:32%" asp-append-version="true" width="250px" height="250px"/>   
             }
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="Robotid" hidden value="@id.Robotid" class="form-control/>
-            </div>
+                <div class="form-group">
+                    <input asp-for="Robotid" hidden value="@id.Robotid" class="form-control/>
+                </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>

@@ -164,17 +164,28 @@ namespace IntelRobotics.Controllers
 
             if (ModelState.IsValid)
             {
-                DateTime dateTime = DateTime.Now;
-                kontaktForm.RequestDate= dateTime;
-                _context.Add(kontaktForm);
-                await _context.SaveChangesAsync();
-                KontaktFormToRobot robot = new KontaktFormToRobot();
-                robot.KontaktFormId = kontaktForm.Id;
-                Guid gu = kontaktForm.Robotid.Value;
-                robot.RobotId = gu;
-                _context.kontaktFormToRobots.Add(robot);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Guid guid = Guid.Parse("1f46ed45-f49c-4dca-83f6-d956c9344c65");
+                if (kontaktForm.Robotid ==guid)
+                {
+                    DateTime dateTime = DateTime.Now;
+                    kontaktForm.RequestDate = dateTime;
+                    _context.Add(kontaktForm);
+                    await _context.SaveChangesAsync();
+                    KontaktFormToRobot robot = new KontaktFormToRobot();
+                    robot.KontaktFormId = kontaktForm.Id;
+                    Guid gu = kontaktForm.Robotid.Value;
+                    robot.RobotId = gu;
+                    _context.kontaktFormToRobots.Add(robot);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    DateTime dateTime = DateTime.Now;
+                    kontaktForm.RequestDate = dateTime;
+                    _context.Add(kontaktForm);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction("Index","Home");
             }
             return View(kontaktForm);
         }

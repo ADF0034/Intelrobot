@@ -24,7 +24,7 @@
                         {
                             <a class="btn btn-success" asp-controller="Home" asp-action="addUser" asp-route-id="@item.Id" asp-route-role="SuperAdmin"> Update til Superadmin</a>
                             <a class="btn btn-danger" asp-controller="Home" asp-action="removeRole" asp-route-id="@item.Id" asp-route-role="@item.role.FirstOrDefault()">fjern rolle</a>
-                        }
+                         }
                         else
                         {
                             <a class="btn btn-danger" asp-controller="Home" asp-action="removeRole" asp-route-id="@item.Id" asp-route-role="@item.role.FirstOrDefault()">fjern rolle</a>
